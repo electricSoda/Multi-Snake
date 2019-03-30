@@ -22,7 +22,7 @@ def main():
       text.pack()
       #put all of the text here:
       with open('instructions.txt') as ins:
-            a = ins.readlines()
+            a = ins.read()
             text.insert(INSERT, a)
 
       ###
