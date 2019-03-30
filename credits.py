@@ -18,8 +18,10 @@ def getOUT():
 
 #GUI('s)
 def guiBack():
-      mixer.pla()
       global root
+
+      mixer.pla()
+      
       root = Tk()
 
       root.title('Multi-Snake Credits')
@@ -52,6 +54,7 @@ def guiBack():
       exi = Button(root, text='Back', command=getOUT)
       exi.config(fg='black', bg='white')
       exi.pack(side=BOTTOM)
+            
       
       root.mainloop()
 

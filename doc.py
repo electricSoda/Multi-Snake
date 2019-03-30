@@ -21,8 +21,9 @@ def main():
       text = Text(root)
       text.pack()
       #put all of the text here:
-      text.insert(INSERT, '                           How To Play: \n')
-      text.insert(INSERT, 'Now go into a hole and have fun! \n')
+      with open('instructions.txt') as ins:
+            a = ins.readlines()
+            text.insert(INSERT, a)
 
       ###
       text.config(state='disabled')
