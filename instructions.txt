@@ -1,2 +1,29 @@
-Hello
-this is a test
+Greetings from the Multi-Snake team.
+These objectives and instructions are used to educate, not premote violent
+thoughts.
+Concluding below are the educational pieces to play this game:
+
+Firstly, to control the snake on the right side of the screen, use the 
+arrow keys to move the snake up, down, left, and right.
+
+To control the snake on the left side of the screen, use W, A, S, D, to 
+move the snake up, left, down, and right.
+
+Secondly, the objective of this game is to eat the food to grow longer in size, 
+but avoiding crashing into your teammate (or player 2) henceforth also avoiding your-
+self*. Quick Tip: Try not to crash into the edge of the window or screen (it won't end
+well). 
+
+If you are playing by your-self, just press either the arrow keys, or W, A, S, D
+to just start one snake up and moving. If you like challenges,  try playing the game
+with both the arrow keys and W, A, S, D.
+
+{Scroll Down}
+
+Also, press the escape button to pause the currently running game.
+
+*Don't let your "Head" crash into your "Body"
+
+Afterword: The shop is coming soon!!
+
+Contact the team at: example.com
