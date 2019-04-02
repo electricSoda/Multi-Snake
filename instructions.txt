@@ -10,15 +10,13 @@ To control the snake on the left side of the screen, use W, A, S, D, to
 move the snake up, left, down, and right.
 
 Secondly, the objective of this game is to eat the food to grow longer in size, 
-but avoiding crashing into your teammate (or player 2) henceforth also avoiding your-
-self*. Quick Tip: Try not to crash into the edge of the window or screen (it won't end
-well). 
+but avoiding crashing into your teammate (or player 2) henceforth also avoiding 
+yourself *. Quick Tip: Try not to crash into the edge of the window or screen
+(it won't end well). 
 
-If you are playing by your-self, just press either the arrow keys, or W, A, S, D
-to just start one snake up and moving. If you like challenges,  try playing the game
-with both the arrow keys and W, A, S, D.
-
-{Scroll Down}
+If you are playing by your-elf, just press either the arrow keys, or W, A, S, D
+to just start one snake up and moving. If you like challenges, try playing the 
+game with both the arrow keys and W, A, S, D.
 
 Also, press the escape button to pause the currently running game.
 
