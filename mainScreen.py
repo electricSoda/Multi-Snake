@@ -12,6 +12,7 @@ import tkinter
 from tkinter import *
 
 def e():
+    root.resizable(height=True, width=True)
     text.pack_forget()
     te.pack_forget()
     ab.pack_forget()
@@ -28,6 +29,8 @@ def e():
 def instr():
     transition()
     global text, te, ab
+
+    root.resizable(height = False, width = False)
 
     text = Text(root)
     text.pack()
@@ -48,7 +51,6 @@ def instr():
     ab.config(fg='black', bg='white')
     ab.pack(side=BOTTOM)
 
-    #doc.writeEvery()
 
 def transition():
     exit1.pack_forget()
