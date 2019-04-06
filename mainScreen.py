@@ -86,12 +86,45 @@ def start():
     for i in range(len(characters)):
         load['text']='Loading Game' + characters[i]
         root.update()
-        sleep(0.5)
+        sleep(0.2)
 
     load.config(text='Success!')
     root.update()
 
     game.oof('Starting')
+
+#colors
+colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet red', 'purple', 'white',
+         'red', 'orange', 'yellow', 'green', 'blue', 'violet red', 'purple', 'white',
+         'red', 'orange', 'yellow', 'green', 'blue', 'violet red', 'purple', 'white',
+         ]
+
+#rainbow
+def rainbow():
+    for i in range(len(colors)):
+        root.config(bg=colors[i])
+        root.update()
+        sleep(1)
+
+
+#scriptGot function
+def scriptGot(event):
+    got = content.get()
+    if got == 'hinghong':
+        rainbow()
+
+
+def easter(event):
+    global content
+
+    content = StringVar()
+    entity = Entry(root, textvariable = content)
+    #bindings
+    entity.bind('<Return>', scriptGot)
+    entity.pack()
+    bool = True
+
+
 
 
 
@@ -99,7 +132,7 @@ def start():
 
 def startScrn(name, bag):
     #set global variables
-    global root, exit1, credi, how, shop, play, sep, gameLabel
+    global root, exit1, credi, how, shop, play, sep, gameLabel, log, bool
 
     #root
     root = Tk()
@@ -168,6 +201,8 @@ def startScrn(name, bag):
     exit1.config(fg='white', bg='dark red')
     exit1.pack(padx=5)
 
+    #root bindings
+    root.bind('<Control-b>', easter)
 
     #mainloop
     root.mainloop()
