@@ -13,7 +13,7 @@ from tkinter import *
 def getOUT():
       root1.destroy()
 
-names = ['Justin Ge', 'Brian Wiggins', 'Max Vandershaf', 'and Python (the programming language)', ' ']
+names = ['Justin Ge', 'Brian Wiggins', 'Max Vandershaaf', 'and Python (the programming language)', ' ']
 
 #GUI('s)
 def guiBack():
