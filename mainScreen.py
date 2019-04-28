@@ -7,6 +7,7 @@ print('"main.py" has connected to all scripts')
 #import modules and scripts
 import game
 import credits
+import winsound
 from time import *
 import tkinter
 from tkinter import *
@@ -111,28 +112,22 @@ def rainbow():
 def scriptGot(event):
     got = content.get()
     if got == 'hinghong':
-        rainbow()
-
-
-def easter(event):
-    global content
-
-    content = StringVar()
-    entity = Entry(root, textvariable = content)
-    #bindings
-    entity.bind('<Return>', scriptGot)
-    entity.pack()
-    bool = True
-
-
-
+        try:
+            rainbow()
+        except:
+            pass
+    elif got == 'whoopwhoop':
+        #print("Whoop! Whoop! It's the sound of de police!")
+        winsound.PlaySound('Sound-Of-The-Police.wav', winsound.SND_ASYNC)
+    else:
+        print('U SUCK')
 
 
 #start the main screen ( or the play and options screen)
 
 def startScrn(name, bag):
     #set global variables
-    global root, exit1, credi, how, shop, play, sep, gameLabel, log, bool
+    global root, exit1, credi, how, shop, play, sep, gameLabel, log, make
 
     #root
     root = Tk()
@@ -201,6 +196,8 @@ def startScrn(name, bag):
     exit1.config(fg='white', bg='dark red')
     exit1.pack(padx=5)
 
+
+    make = False
     #root bindings
     root.bind('<Control-b>', easter)
 
@@ -208,6 +205,22 @@ def startScrn(name, bag):
     root.mainloop()
 
     return
+
+
+def easter(event):
+    global content, make, entity
+
+    if not make:
+        content = StringVar()
+        entity = Entry(root, textvariable = content)
+        #bindings
+        entity.bind('<Return>', scriptGot)
+        entity.pack()
+        make = True
+    else:
+        entity.pack_forget()
+        make = False
+
 
 def hinghong(of):
     print(of, 'is a HINGHONG')
