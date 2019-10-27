@@ -5,7 +5,7 @@
 print('"main.py" has connected to all scripts')
 
 #import modules and scripts
-import game
+#import game
 import credits
 import winsound
 from time import *
@@ -92,7 +92,9 @@ def start():
     load.config(text='Success!')
     root.update()
 
-    game.oof('Starting')
+    root.destroy()
+    game.snake()
+
 
 #colors
 colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet red', 'purple', 'white',
@@ -119,15 +121,18 @@ def scriptGot(event):
     elif got == 'whoopwhoop':
         #print("Whoop! Whoop! It's the sound of de police!")
         winsound.PlaySound('Sound-Of-The-Police.wav', winsound.SND_ASYNC)
+    elif got == 'glitchreturn':
+        root.config(bg='white')
     else:
         print('U SUCK')
 
-
+#twenty_one
+twenty_one = 21
 #start the main screen ( or the play and options screen)
 
 def startScrn(name, bag):
     #set global variables
-    global root, exit1, credi, how, shop, play, sep, gameLabel, log, make
+    global root, exit1, credi, how, shop, play, sep, gameLabel, log, make, sep1
 
     #root
     root = Tk()
@@ -163,7 +168,7 @@ def startScrn(name, bag):
     gameLabel.config(fg='green', bg='light green')
     gameLabel.pack(side=TOP)
 
-    sep1 = '->' * 21
+    sep1 = '->' * twenty_one
 
     sep = Label(root, text=sep1)
     sep.config(font=("Helvetica", 60))
@@ -220,7 +225,3 @@ def easter(event):
     else:
         entity.pack_forget()
         make = False
-
-
-def hinghong(of):
-    print(of, 'is a HINGHONG')
