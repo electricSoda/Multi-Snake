@@ -1,7 +1,7 @@
 Greetings from the Multi-Snake team.
 These objectives and instructions are used to educate, not promote violent
 thoughts.
-Concluding below are the educational pieces to play this game:
+Shown below are the educational pieces to play this game:
 
 Firstly, to control the snake on the right side of the screen, use the
 arrow keys to move the snake up, down, left, and right.
@@ -25,4 +25,4 @@ Also, press the escape button to pause the currently running game.
 
 The shop is coming soon!!
 
-Contact the team at: example.com
+Contact the team at: 

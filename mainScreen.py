@@ -11,6 +11,11 @@ import winsound
 from time import *
 import tkinter
 from tkinter import *
+import webbrowser
+import tkHyperlinkManager
+
+def link():
+    webbrowser.open('https://www.example.com')
 
 def e():
     root.resizable(height=True, width=True)
@@ -35,10 +40,15 @@ def instr():
 
     text = Text(root)
     text.pack()
+
+    hyperlink = tkHyperlinkManager.HyperlinkManager(text)
+
     #put all of the text here:
     with open('instructions.txt') as ins:
         a = ins.read()
         text.insert(INSERT, a)
+
+    text.insert(INSERT, 'example.com', hyperlink.add(link))
 
     ###
     text.config(state='disabled')
@@ -143,6 +153,9 @@ def startScrn(name, bag):
 
     #set the color
     root.config(bg=bag)
+
+    #set icon
+    root.iconbitmap(r'snake_icon.ico')
 
     #get screen width and height
     ws = root.winfo_screenwidth()

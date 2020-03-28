@@ -6,18 +6,12 @@
 import tkinter
 from time import *
 from tkinter import *
-
-
-
-#getOUT
-def getOUT():
-      root1.destroy()
-
-names = ['Justin Ge', 'Brian Wiggins', 'Max Vandershaaf', 'and Python (the programming language)', ' ']
+import tkHyperlinkManager
+import webbrowser
 
 #GUI('s)
 def guiBack():
-    global root1
+    global root1, icon
 
     root1 = Tk()
 
@@ -41,9 +35,30 @@ def guiBack():
     for i in range(len(names)):
         name['text']=names[i]
         root1.update()
-        sleep(4)
+        sleep(2)
 
     cred.pack_forget()
+    name.pack_forget()
+
+    linkCredits = Label(root1, text = 'Credits with Links')
+    linkCredits.config(fg='white', bg='black')
+    linkCredits.config(font=('Helvetica', 35))
+    linkCredits.pack()
+
+
+    #icon1
+    icon1 = Text(root1)
+
+    #hyper links
+    hyperlink = tkHyperlinkManager.HyperlinkManager(icon1)
+
+    icon1.pack()
+    icon1.insert(INSERT, 'Icon made by ')
+    icon1.insert(INSERT, 'monkik', hyperlink.add(monkik))
+    icon1.insert(INSERT, '\n')
+    icon1.insert(INSERT, 'Icon provided by ')
+    icon1.insert(INSERT, 'flaticon.com', hyperlink.add(flaticon))
+    icon1.config(state = DISABLED)
 
     exi = Button(root1, text='Back', command=getOUT)
     exi.config(fg='black', bg='white')
@@ -52,3 +67,15 @@ def guiBack():
 
 
     root1.mainloop()
+
+#getOUT
+def getOUT():
+      root1.destroy()
+
+names = ['Justin Ge', 'Blank Space for kids...']
+
+def monkik():
+    webbrowser.open('https://www.flaticon.com/authors/monkik')
+
+def flaticon():
+    webbrowser.open('https://www.flaticon.com/')

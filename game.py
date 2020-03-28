@@ -13,6 +13,10 @@ os.chdir("C:\\teleport\\Code\\Multi-Snake")
 
 delay = 0.1
 
+gameloop = True
+
+pe = True
+
 # Score
 score1 = 0
 high_score1 = 0
@@ -24,7 +28,7 @@ high_score2 = 0
 #set up the screen
 wn = turtle.Screen()
 wn.title("Multi-Snake")
-wn.bgcolor("green")
+wn.bgcolor("dark green")
 wn.setup(width = 900, height = 740)
 wn.tracer(0) #Turns off screen updates
 
@@ -132,21 +136,27 @@ def paused():
     print(segments2)
     head1.direction = "stop"
     head2.direction = "stop"
+    gameloop = False
+    pe = False
+    exit()
 
 
 
 
 #Keyboard bindings
-wn.listen()
-wn.onkeypress(go_up1, "w")
-wn.onkeypress(go_left1, "a")
-wn.onkeypress(go_down1, "s")
-wn.onkeypress(go_right1, "d")
-wn.onkeypress(go_up2, "Up")
-wn.onkeypress(go_left2, "Left")
-wn.onkeypress(go_down2, "Down")
-wn.onkeypress(go_right2, "Right")
-wn.onkeypress(paused, "Escape")
+if pe == True:
+    wn.listen()
+    wn.onkeypress(go_up1, "w")
+    wn.onkeypress(go_left1, "a")
+    wn.onkeypress(go_down1, "s")
+    wn.onkeypress(go_right1, "d")
+    wn.onkeypress(go_up2, "Up")
+    wn.onkeypress(go_left2, "Left")
+    wn.onkeypress(go_down2, "Down")
+    wn.onkeypress(go_right2, "Right")
+    wn.onkeypress(paused, "Escape")
+else:
+    pass
 
 #other functions
 
@@ -186,7 +196,7 @@ def move2():
 
 
 #Main Game loop
-while True:
+while gameloop == True:
     wn.update()
 
     # Check for a collision with teamate's segment (head1)
