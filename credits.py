@@ -17,6 +17,8 @@ def guiBack():
 
     root1.title('Multi-Snake Credits')
 
+    root1.iconbitmap(r'snake_icon.ico')
+
     #set the color
     root1.config(bg='black')
 

@@ -5,13 +5,10 @@
 import os
 import time
 import mainScreen
-#import game
 import credits
 
 #set working directory
 os.chdir('C:\\teleport\\Code\\Multi-Snake')
-
-
 
 #this is a loop so put non-loops before it
 mainScreen.startScrn('Multi-Snake', 'white')

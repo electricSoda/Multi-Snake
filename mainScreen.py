@@ -13,6 +13,7 @@ import tkinter
 from tkinter import *
 import webbrowser
 import tkHyperlinkManager
+import game
 
 def link():
     webbrowser.open('https://www.example.com')
@@ -27,6 +28,21 @@ def e():
     sep.pack(side = TOP)
     play.pack(padx=5, pady=10)
     shop.pack(padx=5, pady=10)
+    stats.pack(padx=5, pady=10)
+    how.pack(padx=5, pady=10)
+    credi.pack(padx=5, pady=10)
+    exit1.pack(padx=5)
+
+def e2():
+    root.resizable(height=True, width=True)
+    st.pack_forget()
+    bb.pack_forget()
+
+    gameLabel.pack(side = TOP)
+    sep.pack(side = TOP)
+    play.pack(padx=5, pady=10)
+    shop.pack(padx=5, pady=10)
+    stats.pack(padx=5, pady=10)
     how.pack(padx=5, pady=10)
     credi.pack(padx=5, pady=10)
     exit1.pack(padx=5)
@@ -71,6 +87,7 @@ def transition():
     play.pack_forget()
     sep.pack_forget()
     gameLabel.pack_forget()
+    stats.pack_forget()
 
 
 #terminate function
@@ -138,18 +155,18 @@ def scriptGot(event):
 
 #twenty_one
 twenty_one = 21
-#start the main screen ( or the play and options screen)
+#start the main screen
 
 def startScrn(name, bag):
     #set global variables
-    global root, exit1, credi, how, shop, play, sep, gameLabel, log, make, sep1
+    global root, exit1, credi, how, shop, play, sep, gameLabel, log, make, sep1, stats
 
     #root
     root = Tk()
 
     #setting width and height
     w = 800
-    h = 740
+    h = 700
 
     #set the color
     root.config(bg=bag)
@@ -169,48 +186,71 @@ def startScrn(name, bag):
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
     #minsize
-    root.minsize(800, 740)
+    root.minsize(800, 700)
 
     #set title
     root.title(name)
 
+    #local functions
+    def stats():
+        global st, bb
+
+        transition()
+
+        root.resizable(height = False, width = False)
+
+        st = Label(root, text='Game Stats')
+        st.config(font=('Helvetica', 45, 'bold', 'underline'))
+        st.config(bg='white')
+        st.pack(side=TOP)
+
+
+
+        bb = Button(root, text='Back', command=e2)
+        bb.pack(side=BOTTOM)
+
     #initial code
 
     gameLabel = Label(root, text=name)
-    gameLabel.config(font=("Helvetica", 60))
+    gameLabel.config(font=("Helvetica", 50))
     gameLabel.config(fg='green', bg='light green')
     gameLabel.pack(side=TOP)
 
     sep1 = '->' * twenty_one
 
     sep = Label(root, text=sep1)
-    sep.config(font=("Helvetica", 60))
+    sep.config(font=("Helvetica", 45))
     sep.config(fg='green', bg='light green')
     sep.pack(side=TOP)
 
     play = Button(root, text='▓  Play  ▓', command=start)
-    play.config(font=("Comic Sans MS", 45))
+    play.config(font=("Comic Sans MS", 35))
     play.config(fg='light green', bg='dark green')
     play.pack(padx=5, pady=10)
 
     shop = Button(root, text='▓ Shop [Coming Soon!] ▓')
-    shop.config(font=("Comic Sans MS", 30))
+    shop.config(font=("Comic Sans MS", 25))
     shop.config(fg='yellow', bg='purple')
     shop.config(state=DISABLED)
     shop.pack(padx=5, pady=10)
 
+    stats = Button(root, text='▓ Stats ▓', command=stats)
+    stats.config(font=('Comic Sans MS', 25))
+    stats.config(fg='white', bg='blue')
+    stats.pack(padx=5, pady=10)
+
     how = Button(root, text='▓ How To Play ▓', command = instr)
-    how.config(font=("Comic Sans MS", 25))
+    how.config(font=("Comic Sans MS", 18))
     how.config(fg='light blue', bg='dark blue')
     how.pack(padx=5, pady=10)
 
     credi = Button(root, text='▓ Credits ▓', command=optia)
-    credi.config(font=("Comic Sans MS", 25))
+    credi.config(font=("Comic Sans MS", 18))
     credi.config(fg='light grey', bg='black')
     credi.pack(padx=5, pady=10)
 
-    exit1 = Button(root, text='▓ Exit ▓', command=terminate)
-    exit1.config(font=("Comic Sans MS", 20))
+    exit1 = Button(root, text='▓ Quit Game ▓', command=terminate)
+    exit1.config(font=("Comic Sans MS", 18))
     exit1.config(fg='white', bg='dark red')
     exit1.pack(padx=5)
 
