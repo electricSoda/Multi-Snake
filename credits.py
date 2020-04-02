@@ -42,7 +42,7 @@ def guiBack():
     cred.pack_forget()
     name.pack_forget()
 
-    linkCredits = Label(root1, text = 'Credits with Links')
+    linkCredits = Label(root1, text = 'Attributions')
     linkCredits.config(fg='white', bg='black')
     linkCredits.config(font=('Helvetica', 35))
     linkCredits.pack()
@@ -53,12 +53,14 @@ def guiBack():
 
     #hyper links
     hyperlink = tkHyperlinkManager.HyperlinkManager(icon1)
-
     icon1.pack()
     icon1.insert(INSERT, 'Icon made by ')
     icon1.insert(INSERT, 'monkik', hyperlink.add(monkik))
     icon1.insert(INSERT, '\n')
-    icon1.insert(INSERT, 'Icon provided by ')
+    icon1.insert(INSERT, 'Popup icon made by ')
+    icon1.insert(INSERT, 'Freepik', hyperlink.add(freepik))
+    icon1.insert(INSERT, '\n')
+    icon1.insert(INSERT, 'Icons provided by ')
     icon1.insert(INSERT, 'flaticon.com', hyperlink.add(flaticon))
     icon1.config(state = DISABLED)
 
@@ -78,6 +80,9 @@ names = ['Justin Ge', 'Blank Space for kids...']
 
 def monkik():
     webbrowser.open('https://www.flaticon.com/authors/monkik')
+
+def freepik():
+    webbrowser.open('https://www.flaticon.com/authors/freepik')
 
 def flaticon():
     webbrowser.open('https://www.flaticon.com/')

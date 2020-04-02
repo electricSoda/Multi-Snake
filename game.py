@@ -3,13 +3,32 @@
 
 #import modules
 import time
-import pickle
 import turtle
 import random
+from tkinter import *
 import os
 
 #working directory
 os.chdir("C:\\teleport\\Code\\Multi-Snake")
+
+#popup window
+NORM_FONT = ("Helvetica", 10)
+def popupmsg(msg):
+    popup = Tk()
+    popup.wm_title("!")
+    w=400
+    h=100
+    ws = popup.winfo_screenwidth()
+    hs = popup.winfo_screenheight()
+    x = (ws/2) - (w/2)
+    y = (hs/2) - (h/2)
+    popup.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    popup.iconbitmap(r'alert_vSg_icon.ico')
+    label = Label(popup, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = Button(popup, text="OK", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
 
 #encase the code in snake()
 def snake():
@@ -118,15 +137,9 @@ def snake():
 
     def paused():
         try:
-            pickle.dump(score1, open("score1.dat", "wb"))
-            pickle.dump(high_score1, open("high1.dat", "wb"))
-            pickle.dump(score2, open("score2.dat", "wb"))
-            pickle.dump(high_score2, open("high2.dat", "wb"))
-            pickle.dump(len(segments1), open("length1.dat", 'wb'))
-            pickle.dump(len(segments2), open("length2.dat", "wb"))
-
-        except:
-            print("Something went wrong. Please try again later.")
+            popupmsg('EAT MY POOP:SDFJLfasdfasdfas')
+        except Exception as e:
+            popupmsg('An error occured whilst loading pause. ERROR CODE: 3362408')
 
         a = int(len(segments1))
         b = int(len(segments2))
