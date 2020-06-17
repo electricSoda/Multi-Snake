@@ -1,9 +1,6 @@
 #Multi-Snake
 #mainScreen.py
 
-#print that main.py has connected
-print('"main.py" has connected to all scripts')
-
 #import modules and scripts
 #import game
 import credits

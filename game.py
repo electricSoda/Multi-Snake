@@ -6,7 +6,12 @@ import time
 import turtle
 import random
 from tkinter import *
+import sys
+import winsound
 import os
+import mainScreen
+import os.path
+import struct
 
 #working directory
 os.chdir("C:\\teleport\\Code\\Multi-Snake")
@@ -24,7 +29,7 @@ def popupmsg(msg):
     y = (hs/2) - (h/2)
     popup.geometry('%dx%d+%d+%d' % (w, h, x, y))
     popup.iconbitmap(r'alert_vSg_icon.ico')
-    label = Label(popup, text=msg, font=NORM_FONT)
+    label = Message(popup, text=msg, font=NORM_FONT, aspect = 700)
     label.pack(side="top", fill="x", pady=10)
     B1 = Button(popup, text="OK", command = popup.destroy)
     B1.pack()
@@ -41,7 +46,7 @@ def snake():
     # Score
     score1 = 0
     high_score1 = 0
-    score2 =0
+    score2 = 0
     high_score2 = 0
 
     #set up the screen
@@ -135,25 +140,180 @@ def snake():
         if head2.direction != "left":
             head2.direction = "right"
 
-    def paused():
-        try:
-            popupmsg('EAT MY POOP:SDFJLfasdfasdfas')
-        except Exception as e:
-            popupmsg('An error occured whilst loading pause. ERROR CODE: 3362408')
+    #define pause bool
+    pausebool = True
 
+    def paused():
+        global pause, pe, pausebool, gameloop
+        v1 = struct.pack('>d', high_score1)
+        v2 = struct.pack('>d', high_score2)
+        gameloop = False
+        pe = False
+        pausebool = False
+        # try:
+        #     a1 = os.path.isfile('config1.msk')
+        #     a2 = os.path.isfile('config2.msk')
+        #     if a1 == False:
+        #         with open('config1.msk', 'wb+') as h1:
+        #             h1.write(v1)
+        #             h1.close()
+        #     else:
+        #         with open('config1.msk', 'rb') as h1:
+        #             reade1 = h1.read()
+        #             str(reade1)
+        #             aa1 = b'%b' % reade1
+        #             u1 = struct.unpack('>d', aa1)
+        #             u1 = int(u1[0])
+        #             print(u1)
+        #             if u1 < high_score1:
+        #                 c1 = open("config1.msk", "wb+")
+        #                 c1.write(v1)
+        #                 c1.close()
+        #             else:
+        #                 d1 = open('config1.msk', 'wb+')
+        #                 d1.write(aa1)
+        #                 d1.close()
+        #     if a2 == False:
+        #         with open('config2.msk', 'wb+') as h2:
+        #             h2.write(v2)
+        #             h2.close()
+        #     else:
+        #         with open('config2.msk', 'rb') as h2:
+        #             reade2 = h2.read()
+        #             str(reade2)
+        #             aa2 = b'%b' % reade2
+        #             u2 = struct.unpack('>d', aa2)
+        #             u2 = int(u2[0])
+        #             print(u2)
+        #             if u2 < high_score2:
+        #                 c2 = open("config2.msk", "wb+")
+        #                 c2.write(v1)
+        #                 c2.close()
+        #             else:
+        #                 d2 = open('config2.msk', 'wb+')
+        #                 d2.write(aa2)
+        #                 d2.close()
+        #
+        # except Exception as e:
+        #     popupmsg('An error occured whilst storing item/loading pause: %s' % e)
+        #     print(e)
+
+        #Pause the turtles
         a = int(len(segments1))
         b = int(len(segments2))
         del segments1[0:a]
         del segments2[0:b]
-        print(segments1)
-        print(segments2)
         head1.direction = "stop"
         head2.direction = "stop"
-        gameloop = False
-        pe = False
-        exit()
 
+        #Create background for pause screen (turtle)
+        bgp = turtle.Turtle()
+        bgp.speed(5)
+        bgp.pensize(5)
+        bgp.shape('classic')
+        bgp.color('white', 'white')
+        bgp.goto(-450, 370)
+        bgp.begin_fill()
+        for i in range(2):
+            bgp.forward(900)
+            bgp.right(90)
+            bgp.forward(740)
+            bgp.right(90)
+        bgp.end_fill()
+        bgp.hideturtle()
 
+        #hide the player and the food turtles
+        head1.hideturtle()
+        head2.hideturtle()
+        for i in range(len(segments1)):
+            new_segment1.hideturtle()
+        for i in range(len(segments2)):
+            new_segment1.hideturtle()
+        food1.hideturtle()
+        food2.hideturtle()
+
+        #Pen for writing pause menu
+        penm = turtle.Turtle()
+        penm.pensize(5)
+        penm.color('black')
+        penm.speed(5)
+        penm.penup()
+        penm.goto(0, 200)
+        penm.pendown()
+        penm.write('Game Paused', align="center", font=("Comic Sans MS", 60, "bold underline"))
+        penm.penup()
+        penm.goto(-250, 150)
+        penm.color('black', 'light green')
+        penm.pendown()
+        penm.begin_fill()
+        for i in range(2):
+            penm.forward(500)
+            penm.right(90)
+            penm.forward(450)
+            penm.right(90)
+        penm.end_fill()
+        penm.penup()
+        penm.goto(0, 100)
+        penm.pensize(5)
+        def btn1(color1, color2):
+            penm.goto(-200, 100)
+            penm.pendown()
+            penm.color(color1, color2)
+            penm.begin_fill()
+            for i in range(2):
+                penm.forward(400)
+                penm.right(90)
+                penm.forward(100)
+                penm.right(90)
+            penm.end_fill()
+            penm.penup()
+            penm.goto(0, 30)
+            penm.write('Continue Playing', align="center", font=("Comic Sans MS", 30, "bold"))
+
+        def btn2(color1, color2):
+            penm.goto(-200, -150)
+            penm.color(color1, color2)
+            penm.pendown()
+            penm.begin_fill()
+            for i in range(2):
+                penm.forward(400)
+                penm.right(90)
+                penm.forward(100)
+                penm.right(90)
+            penm.end_fill()
+            penm.penup()
+            penm.goto(0, -225)
+            penm.write('Main Menu', align="center", font=("Comic Sans MS", 30, "bold"))
+
+        btn1('black', 'orange')
+        btn2('black', 'orange')
+
+        penm.hideturtle()
+        def btnclick1(x, y):
+            if x > -200 and x < 200 and y < 108 and y > 2:
+                btn1('black', 'yellow')
+                time.sleep(0.5)
+                head1.showturtle()
+                head2.showturtle()
+                food1.showturtle()
+                food2.showturtle()
+                penm.clear()
+                bgp.clear()
+            else:
+                pass
+
+            if x > -200 and x < 200 and y < -147 and y > -250:
+                btn2('black', 'yellow')
+                time.sleep(0.5)
+                wn.bye()
+                mainScreen.startScrn('Multi-Snake', 'white')
+                sys.exit()
+            else:
+                pass
+        
+        turtle.onscreenclick(btnclick1, 1)
+        turtle.listen()
+            
 
 
     #Keyboard bindings
@@ -167,7 +327,10 @@ def snake():
         wn.onkeypress(go_left2, "Left")
         wn.onkeypress(go_down2, "Down")
         wn.onkeypress(go_right2, "Right")
-        wn.onkeypress(paused, "Escape")
+        if pausebool == True:
+            wn.onkeypress(paused, "Escape")
+        else:
+            pass
     else:
         pass
 
@@ -552,9 +715,7 @@ def snake():
                 pen.goto(0, 290)
                 pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
 
-
         time.sleep(delay)
-
 
     #start the mainloop
     wn.mainloop()
