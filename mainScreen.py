@@ -6,11 +6,11 @@
 import credits
 import winsound
 from time import *
-import tkinter
 from tkinter import *
 import webbrowser
 import tkHyperlinkManager
 import game
+import sys
 
 def link():
     webbrowser.open('https://www.example.com')
@@ -89,9 +89,10 @@ def transition():
 
 #terminate function
 def terminate():
+    sleep(10)
     root.destroy()
-    quit()
-    exit()
+    game.stop()
+    sys.exit()
 
 #optia function
 def optia():

@@ -35,19 +35,26 @@ def popupmsg(msg):
     B1.pack()
     popup.mainloop()
 
+stop_bool = False
+
+# gameloop
+gameloop = True
+
+#delay
+delay = 0.1
+
+# Score
+score1 = 0
+high_score1 = 0
+score2 = 0
+high_score2 = 0
+
 #encase the code in snake()
 def snake():
-    delay = 0.1
-
-    gameloop = True
+    global wn, stop_bool
+    stop_bool = True
 
     pe = True
-
-    # Score
-    score1 = 0
-    high_score1 = 0
-    score2 = 0
-    high_score2 = 0
 
     #set up the screen
     wn = turtle.Screen()
@@ -207,28 +214,22 @@ def snake():
         head2.direction = "stop"
 
         #Create background for pause screen (turtle)
-        bgp = turtle.Turtle()
-        bgp.speed(5)
-        bgp.pensize(5)
-        bgp.shape('classic')
-        bgp.color('white', 'white')
-        bgp.goto(-450, 370)
-        bgp.begin_fill()
-        for i in range(2):
-            bgp.forward(900)
-            bgp.right(90)
-            bgp.forward(740)
-            bgp.right(90)
-        bgp.end_fill()
-        bgp.hideturtle()
+        # bgp = turtle.Turtle()
+        # bgp.speed(5)
+        # bgp.pensize(5)
+        # bgp.shape('classic')
+        # bgp.color('white', 'white')
+        # bgp.goto(-450, 370)
+        # bgp.begin_fill()
+        # for i in range(2):
+        #     bgp.forward(900)
+        #     bgp.right(90)
+        #     bgp.forward(740)
+        #     bgp.right(90)
+        # bgp.end_fill()
+        # bgp.hideturtle()
 
-        #hide the player and the food turtles
-        head1.hideturtle()
-        head2.hideturtle()
-        for i in range(len(segments1)):
-            new_segment1.hideturtle()
-        for i in range(len(segments2)):
-            new_segment1.hideturtle()
+        #hide the player and food turtles
         food1.hideturtle()
         food2.hideturtle()
 
@@ -285,10 +286,18 @@ def snake():
             penm.goto(0, -225)
             penm.write('Main Menu', align="center", font=("Comic Sans MS", 30, "bold"))
 
-        btn1('black', 'orange')
-        btn2('black', 'orange')
-
+        btn1('black', 'white')
+        btn2('black', 'white')
         penm.hideturtle()
+
+        #define cleared function
+        def cleared():
+            wn.clearscreen()
+            wn.setup(0,0)
+            wn.update()
+            return
+
+
         def btnclick1(x, y):
             if x > -200 and x < 200 and y < 108 and y > 2:
                 btn1('black', 'yellow')
@@ -297,42 +306,25 @@ def snake():
                 head2.showturtle()
                 food1.showturtle()
                 food2.showturtle()
+                gameloop = True
+                mainlp()
                 penm.clear()
-                bgp.clear()
             else:
                 pass
 
             if x > -200 and x < 200 and y < -147 and y > -250:
                 btn2('black', 'yellow')
                 time.sleep(0.5)
-                wn.bye()
+                gameloop = False
+                cleared()
                 mainScreen.startScrn('Multi-Snake', 'white')
                 sys.exit()
             else:
                 pass
-        
+
         turtle.onscreenclick(btnclick1, 1)
         turtle.listen()
-            
 
-
-    #Keyboard bindings
-    if pe == True:
-        wn.listen()
-        wn.onkeypress(go_up1, "w")
-        wn.onkeypress(go_left1, "a")
-        wn.onkeypress(go_down1, "s")
-        wn.onkeypress(go_right1, "d")
-        wn.onkeypress(go_up2, "Up")
-        wn.onkeypress(go_left2, "Left")
-        wn.onkeypress(go_down2, "Down")
-        wn.onkeypress(go_right2, "Right")
-        if pausebool == True:
-            wn.onkeypress(paused, "Escape")
-        else:
-            pass
-    else:
-        pass
 
     #other functions
 
@@ -370,352 +362,397 @@ def snake():
             x = head2.xcor()
             head2.setx(x + 20)
 
-
     #Main Game loop
-    while gameloop == True:
-        wn.update()
+    def mainlp():
+        while gameloop == True:
+            global delay, score1, score2, high_score1, high_score2
+            wn.update()
 
-        # Check for a collision with teamate's segment (head1)
-        for segment in segments2:
-            if segment.distance(head1) < 20:
-                time.sleep(1)
-                head1.goto(-200, 0)
-                head1.direction = "stop"
-                head2.goto(200, 0)
-                head2.direction = "stop"
+            if pe == True:
+                wn.listen()
+                wn.onkeypress(go_up1, "w")
+                wn.onkeypress(go_left1, "a")
+                wn.onkeypress(go_down1, "s")
+                wn.onkeypress(go_right1, "d")
+                wn.onkeypress(go_up2, "Up")
+                wn.onkeypress(go_left2, "Left")
+                wn.onkeypress(go_down2, "Down")
+                wn.onkeypress(go_right2, "Right")
+                if pausebool == True:
+                    wn.onkeypress(paused, "Escape")
+                else:
+                    pass
+            else:
+                pass
 
-                # Hide the segments
-                for segment in segments1:
-                    segment.goto(1000000000, 1000000000)
-
-                for segment in segments2:
-                    segment.goto(1000000000, 1000000000)
-
-                # Clear the segments lists
-                segments1.clear()
-                segments2.clear()
-
-                # Reset the delay
-                delay = 0.1
-
-                # Clear the score
-                score1 = 0
-                score2 = 0
-                pen.goto(0, 320)
-                pen.clear()
-                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-                pen.goto(0, 290)
-                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-        # Check for a collision with teamate's segment (head2)
-        for segment in segments1:
-            if segment.distance(head2) < 20:
-                time.sleep(1)
-                head1.goto(-200, 0)
-                head1.direction = "stop"
-                head2.goto(200, 0)
-                head2.direction = "stop"
-
-                # Hide the segments
-                for segment in segments1:
-                    segment.goto(1000000000, 1000000000)
-
-                for segment in segments2:
-                    segment.goto(1000000000, 1000000000)
-
-                # Clear the segments lists
-                segments1.clear()
-                segments2.clear()
-
-                # Reset the delay
-                delay = 0.1
-
-                # Clear the score
-                score1 = 0
-                score2 = 0
-                pen.goto(0, 320)
-                pen.clear()
-                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-                pen.goto(0, 290)
-                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-        # Check for a collision with the border (head1)
-        if head1.xcor() > 440 or head1.xcor() < -440 or head1.ycor() > 340 or head1.ycor() < -340:
-            time.sleep(1)
-            head1.goto(-200, 0)
-            head1.direction = "stop"
-            head2.goto(200, 0)
-            head2.direction = "stop"
-
-            # Hide the segments
-            for segment in segments1:
-                segment.goto(1000000000, 1000000000)
-
+            # Check for a collision with teamate's segment (head1)
             for segment in segments2:
-                segment.goto(1000000000, 1000000000)
+                if segment.distance(head1) < 20:
+                    time.sleep(1)
+                    head1.goto(-200, 0)
+                    head1.direction = "stop"
+                    head2.goto(200, 0)
+                    head2.direction = "stop"
 
-            # Clear the segments lists
-            segments1.clear()
-            segments2.clear()
+                    # Hide the segments
+                    for segment in segments1:
+                        segment.goto(1000000000, 1000000000)
 
-            # Reset the delay
-            delay = 0.1
+                    for segment in segments2:
+                        segment.goto(1000000000, 1000000000)
 
-            # Clear the score
-            score1 = 0
-            score2 = 0
-            pen.goto(0, 320)
-            pen.clear()
-            pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-            pen.goto(0, 290)
-            pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+                    # Clear the segments lists
+                    segments1.clear()
+                    segments2.clear()
 
-        # Check for a collision with the border (head2)
-        if head2.xcor() > 440 or head2.xcor() < -440 or head2.ycor() > 340 or head2.ycor() < -340:
-            time.sleep(1)
-            head1.goto(-200, 0)
-            head1.direction = "stop"
-            head2.goto(200, 0)
-            head2.direction = "stop"
+                    # Reset the delay
+                    delay = 0.1
 
-            # Hide the segments
+                    # Clear the score
+                    score1 = 0
+                    score2 = 0
+                    pen.goto(0, 320)
+                    pen.clear()
+                    pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                    pen.goto(0, 290)
+                    pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+            # Check for a collision with teamate's segment (head2)
             for segment in segments1:
-                segment.goto(1000000000, 1000000000)
+                if segment.distance(head2) < 20:
+                    time.sleep(1)
+                    head1.goto(-200, 0)
+                    head1.direction = "stop"
+                    head2.goto(200, 0)
+                    head2.direction = "stop"
 
+                    # Hide the segments
+                    for segment in segments1:
+                        segment.goto(1000000000, 1000000000)
+
+                    for segment in segments2:
+                        segment.goto(1000000000, 1000000000)
+
+                    # Clear the segments lists
+                    segments1.clear()
+                    segments2.clear()
+
+                    # Reset the delay
+                    delay = 0.1
+
+                    # Clear the score
+                    score1 = 0
+                    score2 = 0
+                    pen.goto(0, 320)
+                    pen.clear()
+                    pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                    pen.goto(0, 290)
+                    pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+            # Check for a collision with the border (head1)
+            if head1.xcor() > 440 or head1.xcor() < -440 or head1.ycor() > 340 or head1.ycor() < -340:
+                time.sleep(1)
+                head1.goto(-200, 0)
+                head1.direction = "stop"
+                head2.goto(200, 0)
+                head2.direction = "stop"
+
+                # Hide the segments
+                for segment in segments1:
+                    segment.goto(1000000000, 1000000000)
+
+                for segment in segments2:
+                    segment.goto(1000000000, 1000000000)
+
+                # Clear the segments lists
+                segments1.clear()
+                segments2.clear()
+
+                # Reset the delay
+                delay = 0.1
+
+                # Clear the score
+                score1 = 0
+                score2 = 0
+                pen.goto(0, 320)
+                pen.clear()
+                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                pen.goto(0, 290)
+                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+            # Check for a collision with the border (head2)
+            if head2.xcor() > 440 or head2.xcor() < -440 or head2.ycor() > 340 or head2.ycor() < -340:
+                time.sleep(1)
+                head1.goto(-200, 0)
+                head1.direction = "stop"
+                head2.goto(200, 0)
+                head2.direction = "stop"
+
+                # Hide the segments
+                for segment in segments1:
+                    segment.goto(1000000000, 1000000000)
+
+                for segment in segments2:
+                    segment.goto(1000000000, 1000000000)
+
+                # Clear the segments lists
+                segments1.clear()
+                segments2.clear()
+
+                # Reset the delay
+                delay = 0.1
+
+                # Clear the score
+                score1 = 0
+                score2 = 0
+                pen.goto(0, 320)
+                pen.clear()
+                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                pen.goto(0, 290)
+                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+
+            #Check for a collision with the food1 (head1)
+            if head1.distance(food1) < 20:
+                winsound.PlaySound("Pickup_Food.wav", winsound.SND_ASYNC)
+                time.sleep(0.1)
+                #Move the food1 to a random spot
+                x = random.randint(-440, 440)
+                y = random.randint(-310, 310)
+                food1.goto(x, y)
+
+                #Add a segment
+                new_segment1 = turtle.Turtle()
+                new_segment1.speed(0)
+                new_segment1.shape("square")
+                new_segment1.color("cyan")
+                new_segment1.penup()
+                segments1.append(new_segment1)
+
+                # Shorten the delay
+                delay -=0.001
+
+                # Increase the score
+                score1 += 10
+
+                if score1 > high_score1:
+                    high_score1 = score1
+
+                pen.goto(0, 320)
+                pen.clear()
+                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                pen.goto(0, 290)
+                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+            #Check for a collision with the food1 (head2)
+            if head2.distance(food1) < 20:
+                winsound.PlaySound("Pickup_Food.wav", winsound.SND_ASYNC)
+                time.sleep(0.1)
+                #Move the food1 to a random spot
+                x = random.randint(-440, 440)
+                y = random.randint(-310, 310)
+                food1.goto(x, y)
+
+                #Add a segment
+                new_segment1 = turtle.Turtle()
+                new_segment1.speed(0)
+                new_segment1.shape("square")
+                new_segment1.color("orange")
+                new_segment1.penup()
+                segments2.append(new_segment1)
+
+                # Shorten the delay
+                delay -=0.001
+
+                # Increase the score
+                score2 += 10
+
+                if score2 > high_score2:
+                    high_score2 = score2
+
+                pen.goto(0, 320)
+                pen.clear()
+                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                pen.goto(0, 290)
+                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+            #Check for a collision with the food2 (head1)
+            if head1.distance(food2) < 20:
+                winsound.PlaySound("Pickup_Food.wav", winsound.SND_ASYNC)
+                time.sleep(0.1)
+                #Move the food2 to a random spot
+                x = random.randint(-440, 440)
+                y = random.randint(-310, 310)
+                food2.goto(x, y)
+
+                #Add a segment
+                new_segment1 = turtle.Turtle()
+                new_segment1.speed(0)
+                new_segment1.shape("square")
+                new_segment1.color("cyan")
+                new_segment1.penup()
+                segments1.append(new_segment1)
+
+                # Shorten the delay
+                delay -=0.001
+
+                # Increase the score
+                score1 += 10
+
+                if score1 > high_score1:
+                    high_score1 = score1
+
+                pen.goto(0, 320)
+                pen.clear()
+                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                pen.goto(0, 290)
+                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+
+            #Check for a collision with the food2 (head2)
+            if head2.distance(food2) < 20:
+                winsound.PlaySound("Pickup_Food.wav", winsound.SND_ASYNC)
+                time.sleep(0.1)
+                #Move the food2 to a random spot
+                x = random.randint(-440, 440)
+                y = random.randint(-310, 310)
+                food2.goto(x, y)
+
+                #Add a segment
+                new_segment1 = turtle.Turtle()
+                new_segment1.speed(0)
+                new_segment1.shape("square")
+                new_segment1.color("orange")
+                new_segment1.penup()
+                segments2.append(new_segment1)
+
+                # Shorten the delay
+                delay -=0.001
+
+                # Increase the score
+                score2 += 10
+
+                if score2 > high_score2:
+                    high_score2 = score2
+
+                pen.goto(0, 320)
+                pen.clear()
+                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                pen.goto(0, 290)
+                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+
+            # Move in the segments (head1) first in reverse order
+            for index in range(len(segments1)-1, 0, -1):
+                x = segments1[index-1].xcor()
+                y = segments1[index-1].ycor()
+                segments1[index].goto(x, y)
+
+            # Move in the segments (head2) first in reverse order
+            for index in range(len(segments2)-1, 0, -1):
+                x = segments2[index-1].xcor()
+                y = segments2[index-1].ycor()
+                segments2[index].goto(x, y)
+
+            # Move segment 0 to where head1 is
+            if len(segments1) > 0:
+                x = head1.xcor()
+                y = head1.ycor()
+                segments1[0].goto(x, y)
+
+            # Move segment 0 to where head2 is
+            if len(segments2) > 0:
+                x = head2.xcor()
+                y = head2.ycor()
+                segments2[0].goto(x, y)
+
+            move1()
+            move2()
+
+            #Check for head1 collision with the body segments
+            for segment in segments1:
+                if segment.distance(head1) < 20:
+                    time.sleep(1)
+                    head1.goto(-200, 0)
+                    head1.direction = "stop"
+                    head2.goto(200, 0)
+                    head2.direction = "stop"
+
+                    # Hide the segments
+                    for segment in segments1:
+                        segment.goto(1000000000, 1000000000)
+
+                    for segment in segments2:
+                        segment.goto(1000000000, 1000000000)
+
+                    # Clear the segments lists
+                    segments1.clear()
+                    segments2.clear()
+
+                    # Reset the delay
+                    delay = 0.1
+
+                    # Clear the score
+                    score1 = 0
+                    score2 = 0
+                    pen.goto(0, 320)
+                    pen.clear()
+                    pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                    pen.goto(0, 290)
+                    pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+
+
+            #Check for head2 collision with the body segments
             for segment in segments2:
-                segment.goto(1000000000, 1000000000)
+                if segment.distance(head2) < 20:
+                    time.sleep(1)
+                    head1.goto(-200, 0)
+                    head1.direction = "stop"
+                    head2.goto(200, 0)
+                    head2.direction = "stop"
 
-            # Clear the segments lists
-            segments1.clear()
-            segments2.clear()
+                    # Hide the segments
+                    for segment in segments1:
+                        segment.goto(1000000000, 1000000000)
 
-            # Reset the delay
-            delay = 0.1
+                    for segment in segments2:
+                        segment.goto(1000000000, 1000000000)
 
-            # Clear the score
-            score1 = 0
-            score2 = 0
-            pen.goto(0, 320)
-            pen.clear()
-            pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-            pen.goto(0, 290)
-            pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+                    # Clear the segments lists
+                    segments1.clear()
+                    segments2.clear()
 
+                    # Reset the delay
+                    delay = 0.1
 
-        #Check for a collision with the food1 (head1)
-        if head1.distance(food1) < 20:
-            #Move the food1 to a random spot
-            x = random.randint(-440, 440)
-            y = random.randint(-310, 310)
-            food1.goto(x, y)
-
-            #Add a segment
-            new_segment1 = turtle.Turtle()
-            new_segment1.speed(0)
-            new_segment1.shape("square")
-            new_segment1.color("cyan")
-            new_segment1.penup()
-            segments1.append(new_segment1)
-
-            # Shorten the delay
-            delay -=0.001
-
-            # Increase the score
-            score1 += 10
-
-            if score1 > high_score1:
-                high_score1 = score1
-
-            pen.goto(0, 320)
-            pen.clear()
-            pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-            pen.goto(0, 290)
-            pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-        #Check for a collision with the food1 (head2)
-        if head2.distance(food1) < 20:
-            #Move the food1 to a random spot
-            x = random.randint(-440, 440)
-            y = random.randint(-310, 310)
-            food1.goto(x, y)
-
-            #Add a segment
-            new_segment1 = turtle.Turtle()
-            new_segment1.speed(0)
-            new_segment1.shape("square")
-            new_segment1.color("orange")
-            new_segment1.penup()
-            segments2.append(new_segment1)
-
-            # Shorten the delay
-            delay -=0.001
-
-            # Increase the score
-            score2 += 10
-
-            if score2 > high_score2:
-                high_score2 = score2
-
-            pen.goto(0, 320)
-            pen.clear()
-            pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-            pen.goto(0, 290)
-            pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-        #Check for a collision with the food2 (head1)
-        if head1.distance(food2) < 20:
-            #Move the food2 to a random spot
-            x = random.randint(-440, 440)
-            y = random.randint(-310, 310)
-            food2.goto(x, y)
-
-            #Add a segment
-            new_segment1 = turtle.Turtle()
-            new_segment1.speed(0)
-            new_segment1.shape("square")
-            new_segment1.color("cyan")
-            new_segment1.penup()
-            segments1.append(new_segment1)
-
-            # Shorten the delay
-            delay -=0.001
-
-            # Increase the score
-            score1 += 10
-
-            if score1 > high_score1:
-                high_score1 = score1
-
-            pen.goto(0, 320)
-            pen.clear()
-            pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-            pen.goto(0, 290)
-            pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
+                    # Clear the score
+                    score1 = 0
+                    score2 = 0
+                    pen.goto(0, 320)
+                    pen.clear()
+                    pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
+                    pen.goto(0, 290)
+                    pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
 
 
-        #Check for a collision with the food2 (head2)
-        if head2.distance(food2) < 20:
-            #Move the food2 to a random spot
-            x = random.randint(-440, 440)
-            y = random.randint(-310, 310)
-            food2.goto(x, y)
-
-            #Add a segment
-            new_segment1 = turtle.Turtle()
-            new_segment1.speed(0)
-            new_segment1.shape("square")
-            new_segment1.color("orange")
-            new_segment1.penup()
-            segments2.append(new_segment1)
-
-            # Shorten the delay
-            delay -=0.001
-
-            # Increase the score
-            score2 += 10
-
-            if score2 > high_score2:
-                high_score2 = score2
-
-            pen.goto(0, 320)
-            pen.clear()
-            pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-            pen.goto(0, 290)
-            pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-
-        # Move in the segments (head1) first in reverse order
-        for index in range(len(segments1)-1, 0, -1):
-            x = segments1[index-1].xcor()
-            y = segments1[index-1].ycor()
-            segments1[index].goto(x, y)
-
-        # Move in the segments (head2) first in reverse order
-        for index in range(len(segments2)-1, 0, -1):
-            x = segments2[index-1].xcor()
-            y = segments2[index-1].ycor()
-            segments2[index].goto(x, y)
-
-        # Move segment 0 to where head1 is
-        if len(segments1) > 0:
-            x = head1.xcor()
-            y = head1.ycor()
-            segments1[0].goto(x, y)
-
-        # Move segment 0 to where head2 is
-        if len(segments2) > 0:
-            x = head2.xcor()
-            y = head2.ycor()
-            segments2[0].goto(x, y)
-
-        move1()
-        move2()
-
-        #Check for head1 collision with the body segments
-        for segment in segments1:
-            if segment.distance(head1) < 20:
-                time.sleep(1)
-                head1.goto(-200, 0)
-                head1.direction = "stop"
-                head2.goto(200, 0)
-                head2.direction = "stop"
-
-                # Hide the segments
-                for segment in segments1:
-                    segment.goto(1000000000, 1000000000)
-
-                for segment in segments2:
-                    segment.goto(1000000000, 1000000000)
-
-                # Clear the segments lists
-                segments1.clear()
-                segments2.clear()
-
-                # Reset the delay
-                delay = 0.1
-
-                # Clear the score
-                score1 = 0
-                score2 = 0
-                pen.goto(0, 320)
-                pen.clear()
-                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-                pen.goto(0, 290)
-                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-        #Check for head2 collision with the body segments
-        for segment in segments2:
-            if segment.distance(head2) < 20:
-                time.sleep(1)
-                head1.goto(-200, 0)
-                head1.direction = "stop"
-                head2.goto(200, 0)
-                head2.direction = "stop"
-
-                # Hide the segments
-                for segment in segments1:
-                    segment.goto(1000000000, 1000000000)
-
-                for segment in segments2:
-                    segment.goto(1000000000, 1000000000)
-
-                # Clear the segments lists
-                segments1.clear()
-                segments2.clear()
-
-                # Reset the delay
-                delay = 0.1
-
-                # Clear the score
-                score1 = 0
-                score2 = 0
-                pen.goto(0, 320)
-                pen.clear()
-                pen.write("Player 1 : {}        Player 2 : {}".format(score1, score2), align="center", font=("Courier", 18, "normal"))
-                pen.goto(0, 290)
-                pen.write("High Score : {}        High Score : {}".format(high_score1, high_score2), align="center", font=("Courier", 16, "normal"))
-
-        time.sleep(delay)
+            time.sleep(delay)
+    mainlp()
 
     #start the mainloop
     wn.mainloop()
+
+#Exit/ stop function for the GUI
+def stop():
+    if stop_bool == False:
+        sys.exit()
+    else:
+        wn.bye()
+        sys.exit()

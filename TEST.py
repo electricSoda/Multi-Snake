@@ -1,12 +1,26 @@
-import turtle
-bgp = turtle.Turtle()
-bgp.speed(5)
-bgp.pensize(5)
-bgp.color('black', 'black')
-bgp.begin_fill()
-bb = 0
-while bb < 4:
-    bgp.right(90)
-    bgp.forward(200)
-    bb += 1
-bgp.end_fill()
+import winsound
+import os
+import time
+import sys
+import turtle as tk
+os.chdir('C:\\teleport\\Code\\Multi-Snake')
+def play():
+    global running
+    running = True
+    while running:
+        winsound.PlaySound("themesong.wav", winsound.SND_ASYNC)
+        time.sleep(7)
+
+def stop():
+    global running
+    running = False
+    sys.exit()
+
+import tkinter as tk
+from turtle import RawTurtle, TurtleScreen, ScrolledCanvas
+
+root = tk.Tk()
+root.attributes("-alpha", 0.3)
+
+
+root.mainloop()
